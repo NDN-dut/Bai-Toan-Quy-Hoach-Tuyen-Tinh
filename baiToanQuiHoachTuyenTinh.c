@@ -263,22 +263,19 @@ void timCotChuYeu(float A[100][100], int m, int n, int *ccy_ptr) {
 
 int timDongChuYeu(float A[100][100], int m, int n, int ccy, int *dcy_ptr) {
 	int i;
-	int row_index = 1, count = 0;
-	float lamda = A[row_index][n] / A[row_index][ccy];
-	float min = (lamda > 0)? lamda:-lamda;
-	if (lamda > 0) count++;
-	for (i = 2; i <= m - 1; i++) {
-		if (A[i][ccy] != 0) {	
-			lamda = A[i][n] / A[i][ccy];
-			if (lamda > 0 && min > lamda) {
+	int dcy = -1;
+	float min = FLT_MAX;
+	for (i = 1; i <= m - 1; i++) {
+		if (A[i][ccy] > 0) {	
+			float lamda = A[i][n] / A[i][ccy];
+			if (min > lamda) {
 				min = lamda;
-				row_index = i;
-				count++;
+				dcy = i;
 			}
 		}
 	}
-	if (count == 0) return 0;
-	*dcy_ptr = row_index;
+	if (dcy == -1) return 0;
+	*dcy_ptr = dcy;
 	return 1;
 }
 
